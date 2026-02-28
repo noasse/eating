@@ -5,7 +5,7 @@ import re
 
 class LLMService:
     def __init__(self):
-        # 配置大模型的基础参数
+        # Model parameters
         self.model_name = "qwen3:14b"
         self.api_url = "http://localhost:11434/api/generate"
         print(f"[LLM Service] initialization completed，the local model has been mounted: {self.model_name}")
@@ -26,7 +26,6 @@ class LLMService:
         """
         core business logic: receive parameters, generate menu JSON data
         """
-        # 防止外部没传参导致报错，赋默认空列表
         dietary = dietary or []
         allergens = allergens or []
         preferences = preferences or []

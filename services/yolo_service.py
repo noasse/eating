@@ -9,7 +9,7 @@ class YoloService:
     def __init__(self):
         print("[YOLO Service] initialization models and diction...")
 
-        #  load diction
+        # load diction
         json_path = os.path.join(os.path.dirname(__file__), '../data/ingredients_dict.json')
         with open(json_path, 'r', encoding='utf-8') as f:
             ingredient_data = json.load(f)
