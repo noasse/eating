@@ -1,4 +1,3 @@
-# 文件路径: services/yolo_service.py
 import os
 import json
 import io
@@ -8,9 +7,9 @@ from ultralytics import YOLO
 
 class YoloService:
     def __init__(self):
-        print("⏳ [YOLO Service] 正在初始化模型和字典...")
+        print("[YOLO Service] initialization models and diction...")
 
-        # 1. 加载字典 (注意路径指向 data 文件夹)
+        #  load diction
         json_path = os.path.join(os.path.dirname(__file__), '../data/ingredients_dict.json')
         with open(json_path, 'r', encoding='utf-8') as f:
             ingredient_data = json.load(f)
@@ -27,15 +26,15 @@ class YoloService:
                     "category": category
                 }
 
-        # 2. 加载模型并注入词汇表
+        # load model and inject the glossary
         model_path = os.path.join(os.path.dirname(__file__), '../data/yolov8s-world.pt')
         self.model = YOLO(model_path)
         self.model.set_classes(self.yolo_classes_en)
 
-        print(f"✅ [YOLO Service] 初始化完成，已加载 {len(self.yolo_classes_en)} 种食材。")
+        print(f"[YOLO Service] initialization completed，loaded {len(self.yolo_classes_en)} kind of ingredients.")
 
     def identify(self, image_bytes: bytes):
-        """核心业务逻辑：接收图片字节流，返回识别出来的 JSON 列表"""
+        """receive the image byte stream and return the identified JSON list"""
         image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
         results = self.model.predict(image, conf=0.15)
 
@@ -45,10 +44,10 @@ class YoloService:
             en_name = self.yolo_classes_en[class_id]
             detail_info = self.mapping_dict[en_name]
 
+            # Chinese and English
             item_data = {
                 "name": {
                     "zh": detail_info["zh"],
-                    "zh_Hant": detail_info["zh"],
                     "en": en_name.capitalize()
                 },
                 "category": detail_info["category"],
@@ -60,5 +59,4 @@ class YoloService:
         return detected_ingredients
 
 
-# 实例化一个单例供外部调用
 yolo_app = YoloService()
