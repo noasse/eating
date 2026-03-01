@@ -37,7 +37,8 @@ class LLMService:
         # Prompt
         prompt = f"""
 你是一个顶级的国际米其林 AI 厨师长。
-请根据以下就餐情况，自主决定应该做几道菜（通常 N 个人需要 N 到 N+1 道菜的组合），并规划出一桌完美的菜单。
+请根据以下就餐情况，自主决定应该做几道菜（通常 N 个人需要 N 到 N+1 道菜的组合），规划出一桌完美的菜单。
+同时，额外再提供 2 道备用菜（candidates），供用户在不满意某道主菜时直接替换，不得与主菜重复。
 
 【当前就餐情况】
 - 就餐人数: {diners} 人
@@ -50,7 +51,7 @@ class LLMService:
 你必须输出一个完整的 JSON。格式如下：
 {{
   "reasoning": "你的分析过程",
-  "planned_dish_count": 0, 
+  "planned_dish_count": 0,
   "recipes": [
     {{
       "name": {{"zh": "菜名", "en": "Name"}},
@@ -59,7 +60,26 @@ class LLMService:
       "difficulty": {{"zh": "简单", "en": "Easy"}},
       "calories": 250,
       "cooking_time": 15,
-      "servings": {diners}, 
+      "servings": {diners},
+      "ingredients": [
+        {{"name": {{"zh": "食材名", "en": "Ingredient"}}, "quantity": "数量", "unit": {{"zh": "单位", "en": "Unit"}}}}
+      ],
+      "steps": [
+        {{"step": 1, "description": {{"zh": "步骤", "en": "Step"}}}}
+      ],
+      "tips": {{"zh": "小贴士", "en": "Tips"}},
+      "tags": [{{"zh": "标签", "en": "Tag"}}]
+    }}
+  ],
+  "candidates": [
+    {{
+      "name": {{"zh": "备用菜名", "en": "Name"}},
+      "description": {{"zh": "描述", "en": "Description"}},
+      "category": {{"zh": "热菜", "en": "Category"}},
+      "difficulty": {{"zh": "简单", "en": "Easy"}},
+      "calories": 250,
+      "cooking_time": 15,
+      "servings": {diners},
       "ingredients": [
         {{"name": {{"zh": "食材名", "en": "Ingredient"}}, "quantity": "数量", "unit": {{"zh": "单位", "en": "Unit"}}}}
       ],

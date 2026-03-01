@@ -315,6 +315,9 @@ Field: image (file)
 > ⚠️ 本接口调用本地大模型，响应时间约 30–120 秒。
 > ⚠️ This endpoint calls a local LLM. Response time is ~30–120 seconds.
 
+除主菜单外，接口还会额外返回 2 道**备用菜**（`candidates`），供用户在不满意某道主菜时直接在前端替换，无需再次调用接口。
+In addition to the main meal plan, the response includes 2 **candidate dishes** for instant client-side swapping without an extra API call.
+
 **Request Body**
 ```json
 {
@@ -324,6 +327,33 @@ Field: image (file)
   "allergens": ["花生"],
   "preferences": ["快手", "下饭"]
 }
+```
+
+**Response**
+```json
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "reasoning": "根据2人就餐设计两道快手菜...",
+    "planned_dish_count": 2,
+    "recipes": [
+      { "name": { "zh": "番茄炒蛋", "en": "Tomato Stir-Fried Eggs" }, "..." }
+    ],
+    "candidates": [
+      { "name": { "zh": "醋溜土豆丝", "en": "Sour Potato Shreds" }, "..." }
+    ]
+  }
+}
+```
+
+**换菜逻辑（前端实现，无需额外接口）/ Dish Swap (frontend only, no extra API call)**
+
+用户点击"换一道"时，从 `candidates` 列表中取下一道替换即可：
+```javascript
+// candidates 是一个队列，逐个替换
+const newDish = candidates.shift()
+recipes[targetIndex] = newDish
 ```
 
 ---
