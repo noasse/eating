@@ -10,8 +10,10 @@ class YoloService:
         print("[YOLO Service] initialization models and diction...")
 
         # load diction
-        json_path = os.path.join(os.path.dirname(__file__), '../data/ingredients_dict.json')
-        with open(json_path, 'r', encoding='utf-8') as f:
+        import sys
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+        from config import INGREDIENTS_JSON_PATH, YOLO_MODEL_PATH
+        with open(INGREDIENTS_JSON_PATH, 'r', encoding='utf-8') as f:
             ingredient_data = json.load(f)
 
         self.yolo_classes_en = []
@@ -27,8 +29,7 @@ class YoloService:
                 }
 
         # load model and inject the glossary
-        model_path = os.path.join(os.path.dirname(__file__), '../data/yolov8s-world.pt')
-        self.model = YOLO(model_path)
+        self.model = YOLO(YOLO_MODEL_PATH)
         self.model.set_classes(self.yolo_classes_en)
 
         print(f"[YOLO Service] initialization completed，loaded {len(self.yolo_classes_en)} kind of ingredients.")

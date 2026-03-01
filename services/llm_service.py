@@ -1,13 +1,17 @@
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
 import requests
 import json
 import re
+from config import OLLAMA_URL, LLM_MODEL
 
 
 class LLMService:
     def __init__(self):
-        # Model parameters
-        self.model_name = "qwen3:14b"
-        self.api_url = "http://localhost:11434/api/generate"
+        self.model_name = LLM_MODEL
+        self.api_url = OLLAMA_URL
         print(f"[LLM Service] initialization completed，the local model has been mounted: {self.model_name}")
 
     def _extract_json_from_text(self, text: str) -> str:
