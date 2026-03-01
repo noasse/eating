@@ -24,7 +24,7 @@ class GenerateRequest(BaseModel):
 
 @router.post("/recipes/generate")
 def generate_recipes(req: GenerateRequest):
-    """根据食材和就餐信息，调用 Qwen 生成菜谱"""
+    """Call Qwen to generate recipes based on ingredients and dining information"""
     try:
         result = llm_app.generate_menu(
             diners=req.diners,
@@ -41,7 +41,7 @@ def generate_recipes(req: GenerateRequest):
 
 @router.get("/categories")
 def get_categories():
-    """返回菜谱分类列表"""
+    """Return the list of recipe categories"""
     categories = [
         {"id": "breakfast", "name": {"zh": "早餐", "en": "Breakfast"}},
         {"id": "lunch",     "name": {"zh": "午餐", "en": "Lunch"}},

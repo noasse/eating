@@ -16,7 +16,7 @@ def err(code: int, message: str):
 
 @router.post("/ingredients/recognize")
 async def recognize_ingredients(image: UploadFile = File(...)):
-    """上传图片，返回 YOLO 识别出的食材列表"""
+    """Upload an image and return the list of ingredients recognized by YOLO"""
     if not image.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="请上传图片文件")
 
@@ -31,7 +31,7 @@ async def recognize_ingredients(image: UploadFile = File(...)):
 
 @router.get("/ingredients")
 def list_ingredients():
-    """返回全部可识别食材列表"""
+    """Return the list of all recognizable ingredients"""
     with open(INGREDIENTS_JSON_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
 
