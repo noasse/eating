@@ -16,3 +16,6 @@ LLM_MODEL = "qwen3:14b"
 JWT_SECRET = os.getenv("JWT_SECRET", "change-me-in-production")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_MINUTES = 60 * 24 * 7  # 7天
+
+# 数据库
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql:///eatfor?host=/tmp")

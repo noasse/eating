@@ -1,2 +1,9 @@
-# 数据库模型占位
-# TODO: 用户表 (User)、过敏原表 (Allergen)、收藏表 (Favorite) 将在此处定义
+from database import Base, engine
+from models.user import User
+from models.allergen import Allergen
+from models.favorite import Favorite
+
+def create_all_tables():
+    Base.metadata.create_all(bind=engine)
+
+__all__ = ["User", "Allergen", "Favorite", "create_all_tables"]

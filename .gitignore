@@ -6,3 +6,6 @@
 .claudeignore
 __pycache__/
 *.pyc
+.env
+*.db
+test_food.jpg
